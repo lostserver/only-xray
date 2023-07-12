@@ -1,1 +1,1 @@
-# only-xray
+Auto script install vmess, vless, trojan, shadowsocks
