@@ -1,4 +1,4 @@
-# Auto script install vmess, vless, trojan, shadowsocks tanpa reg IP
+# Auto script install vmess, vless, trojan, shadowsocks tanpa Register IP
 - For Debian 9, 10, 11 & Ubuntu 18, 20
 - Port 443 & 80
 
