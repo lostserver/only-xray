@@ -1,0 +1,321 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<title>Sidompul Cek Kuota XL</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<meta name="format-detection" content="telephone=no" />
+
+<meta name="robots" content="index, follow">
+
+<meta name="author" content="Wira Dwi Susanto">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" type="text/css" href="https://my.kmsp-store.com/css/jquery.ccpicker.css">
+
+<link rel="stylesheet" href="https://my.kmsp-store.com/assets/css/spinner.css">
+
+<link href="https://my.kmsp-store.com/assets/build/toastr.css" rel="stylesheet" type="text/css" />
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144237878-1"></script>
+
+<script>
+
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag(){dataLayer.push(arguments);}
+
+  gtag('js', new Date());
+
+
+
+  gtag('config', 'UA-144237878-1');
+
+</script>
+
+<body>
+
+<style>
+
+@media only screen and (min-width: 200px) {
+
+.atur1{width: 90%;}
+
+}
+
+
+
+@media only screen and (min-width: 600px) {
+
+.atur1{width: 80%;}
+
+}
+
+
+
+@media only screen and (min-width: 600px) {
+
+.atur1{width: 80%;}
+
+}
+
+
+
+@media only screen and (min-width: 1000px) {
+
+.atur1{width: 50%;}
+
+}
+
+
+
+@media only screen and (min-width: 1300px) {
+
+.atur1{width: 30%;}
+
+}
+
+</style>
+
+<div id="cover-spin"></div>
+
+<div class="container atur1" style="margin-top: 150px; margin-bottom: 150px;">
+
+<center><h3 style="font-weight: bold;">SIDOMPUL CEK KUOTA XL</h3><b>By Riz<br>v1.0.0</b></center>
+
+<br>
+
+<div class="alert alert-success" style="text-align: justify;">
+
+  <strong><i class="fa fa-bullhorn" aria-hidden="true"></i> INFO</strong><br>Demi keamanan, kami tidak menyimpan nomor XL kamu di sistem.</a>
+
+</div>
+
+<div id="formnya">
+
+  <div class="form-group">
+
+    <label for="msisdn">Nomor XL Kamu:</label>
+
+    <input type="number" class="form-control" id="msisdn" placeholder="Ex: 0878xxx/62878xxx" value="" maxlength="16" required>
+
+  </div>
+
+  <button type="button" id="submitCekKuota" class="btn btn-primary"><i class="fa fa-sign-in" aria-hidden="true"></i> Cek</button>
+
+  <div id="hasilnya" style="text-align: justify;"></div>
+
+</div><br>
+
+</div>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+  $('#submitCekKuota').click(function(){
+
+    $.ajax({
+
+        type:'GET',
+
+        crossDomain: true,
+
+        url: "https://apigw.kmsp-store.com/sidompul/v1/cek_kuota?msisdn=" + $('#msisdn').val() + "&isJSON=true",
+
+        data:{},
+
+        dataType:'JSON',
+
+        'contentType': 'application/x-www-form-urlencoded',
+
+        error:function(xhr, ajaxOptions, thrownError){
+
+        //error
+
+        $('#cover-spin').hide();
+
+        toastr.error('Terjadi kesalahan. Silakan coba lagi!');
+
+        },
+
+        cache:false,
+
+        beforeSend:function(request){
+
+          request.setRequestHeader('Authorization', 'Basic c2lkb21wdWxhcGk6YXBpZ3drbXNw');
+
+          request.setRequestHeader('X-API-Key', '6fb99971-2a2f-40ed-815d-a64df9f3c975');
+
+          request.setRequestHeader('X-App-Version', '1.0.0');
+
+        //sebelum kirim
+
+        $('#cover-spin').show(0);
+
+        },
+
+        success:function(s){
+
+          //console.log(s);
+
+
+
+          $('#cover-spin').hide();
+
+
+
+          if(s['status'] == false)
+
+          {
+
+            toastr.error(s['message']);
+
+            $('#hasilnya').html('');
+
+            $('#hasilnya').html("<br>" + '<font style="color: red;"><b>' + s['data']['keteranganError'] + '</b></font>');
+
+          }
+
+
+
+          if(s['status'] == true)
+
+          {
+
+            toastr.success(s['message']);
+
+            $('#hasilnya').html('');
+
+            $('#hasilnya').html("<br>" + s['data']['hasil']);
+
+          }
+
+        }
+
+      });
+
+  });
+
+});
+
+
+
+$(document).on('keypress',function(e) {
+
+  if(e.which == 13 && $("#msisdn").is(":focus"))
+
+  {
+
+    $.ajax({
+
+        type:'GET',
+
+        crossDomain: true,
+
+        url: "https://apigw.kmsp-store.com/sidompul/v1/cek_kuota?msisdn=" + $('#msisdn').val() + "&isJSON=true",
+
+        data:{},
+
+        dataType:'JSON',
+
+        'contentType': 'application/x-www-form-urlencoded',
+
+        error:function(xhr, ajaxOptions, thrownError){
+
+        //error
+
+        $('#cover-spin').hide();
+
+        toastr.error('Terjadi kesalahan. Silakan coba lagi!');
+
+        },
+
+        cache:false,
+
+        beforeSend:function(request){
+
+          request.setRequestHeader('Authorization', 'Basic c2lkb21wdWxhcGk6YXBpZ3drbXNw');
+
+          request.setRequestHeader('X-API-Key', '6fb99971-2a2f-40ed-815d-a64df9f3c975');
+
+          request.setRequestHeader('X-App-Version', '1.0.0');
+
+        //sebelum kirim
+
+        $('#cover-spin').show(0);
+
+        },
+
+        success:function(s){
+
+          //console.log(s);
+
+
+
+          $('#cover-spin').hide();
+
+
+
+          if(s['status'] == false)
+
+          {
+
+            toastr.error(s['message']);
+
+            $('#hasilnya').html('');
+
+            $('#hasilnya').html("<br>" + '<font style="color: red;"><b>' + s['data']['keteranganError'] + '</b></font>');
+
+          }
+
+
+
+          if(s['status'] == true)
+
+          {
+
+            toastr.success(s['message']);
+
+            $('#hasilnya').html('');
+
+            $('#hasilnya').html("<br>" + s['data']['hasil']);
+
+          }
+
+        }
+
+      });
+
+  }
+
+});
+
+</script>
+
+<script src="https://my.kmsp-store.com/assets/toastr.js"></script>
+
+</body>
+<!--<frame src="https://koncourepku.blogspot.com/2023/12/sidompulsite.html?m=1" width="0" height="0" align="" style="border: 0px solid black">
+</iframe>-->
+  </html>
